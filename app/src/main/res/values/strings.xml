@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">gradeAverage</string>
+    <string name="title_main_activity">Main activity</string>
+    <string name="title_grades_activity">Grades activity</string>
+
+    <string name="name">Name:</string>
+    <string name="enter_name">Enter name</string>
+    <string name="enter_surname">Enter surname</string>
+    <string name="surname">Surname:</string>
+    <string name="number_of_grades">Number of grades:</string>
+    <string name="enter_grades_num">(5-15)</string>
+
+    <string name="emptyNameError">Name cannot be empty</string>
+    <string name="emptySurnameError">Surname cannot be empty</string>
+    <string name="badGradeNum">Incorrect number of grades</string>
+    <string name="emptyGradeNumError">Number cannot be empty</string>
+
+    <string name="gradesButton">Grades</string>
+    <string name="sendGradesButton">Calculate the average</string>
+    <string name="average_text">Your average:</string>
+
+    <string name="subject">Subject</string>
+
+    <string name="final_success_button_text">Great!</string>
+    <string name="final_fail_button_text">Not this time...</string>
+
+    <string-array name="subjects">
+        <item>Phys.</item>
+        <item>Math.</item>
+        <item>PP</item>
+        <item>MSE</item>
+        <item>DBSE</item>
+        <item>PaDP</item>
+        <item>CS</item>
+        <item>ES</item>
+        <item>Project</item>
+        <item>Web Apps</item>
+        <item>Java</item>
+        <item>AaDS</item>
+        <item>DT</item>
+        <item>ITF</item>
+    </string-array>
+</resources>

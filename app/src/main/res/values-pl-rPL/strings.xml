@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">średniaOcen</string>
+    <string name="title_main_activity">Aktywność główna</string>
+    <string name="title_grades_activity">Aktywność z ocenami</string>
+
+    <string name="name">Imię</string>
+    <string name="enter_name">Wpisz imię</string>
+    <string name="enter_surname">Wpisz nazwisko</string>
+    <string name="surname">Nazwisko</string>
+    <string name="number_of_grades">Liczba ocen</string>
+    <string name="enter_grades_num">Wpisz liczbę ocen (5-15)</string>
+
+    <string name="emptyNameError">Imię nie może być puste</string>
+    <string name="badGradeNum">Niepoprawna liczba ocen</string>
+    <string name="emptySurnameError">Nazwisko nie może być puste</string>
+    <string name="emptyGradeNumError">Liczba nie może być pusta</string>
+
+    <string name="gradesButton">Oceny</string>
+    <string name="sendGradesButton">Oblicz średnią</string>
+    <string name="average_text">Twoja średnia:</string>
+
+    <string name="subject">Przedmiot</string>
+
+    <string name="final_success_button_text">Super!</string>
+    <string name="final_fail_button_text">Tym razem mi nie poszło</string>
+
+    <string-array name="subjects">
+        <item>Fiz.</item>
+        <item>Mat.</item>
+        <item>PP</item>
+        <item>ISM</item>
+        <item>ISBD</item>
+        <item>PRiR</item>
+        <item>MiSK</item>
+        <item>Sys. Wb.</item>
+        <item>Projekt</item>
+        <item>TAI</item>
+        <item>Java</item>
+        <item>AiSD</item>
+        <item>TC</item>
+        <item>TPI</item>
+    </string-array>
+</resources>
