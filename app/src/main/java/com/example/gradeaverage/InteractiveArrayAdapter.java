@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class InteractiveArrayAdapter extends RecyclerView.Adapter {
+public class InteractiveArrayAdapter extends RecyclerView.Adapter<InteractiveArrayAdapter.GradesViewHolder> {
 
     private List<Grade> gradeList;
     private LayoutInflater layoutInflater;
@@ -22,7 +22,7 @@ public class InteractiveArrayAdapter extends RecyclerView.Adapter {
     class GradesViewHolder extends RecyclerView.ViewHolder
             implements RadioGroup.OnCheckedChangeListener {
 
-        TextView subjectName;
+        TextView subjectNameTextView;
         RadioGroup radioGroup;
         RadioButton radioButton2;
         RadioButton radioButton3;
@@ -32,7 +32,7 @@ public class InteractiveArrayAdapter extends RecyclerView.Adapter {
         public GradesViewHolder(@NonNull View mainRowElement) {
             super(mainRowElement);
 
-            subjectName = mainRowElement.findViewById(R.id.subjectName);
+            subjectNameTextView = mainRowElement.findViewById(R.id.subjectName);
             radioGroup = mainRowElement.findViewById(R.id.radioGroup);
             radioButton2 = mainRowElement.findViewById(R.id.radioButton2);
             radioButton3 = mainRowElement.findViewById(R.id.radioButton3);
@@ -51,31 +51,27 @@ public class InteractiveArrayAdapter extends RecyclerView.Adapter {
     }
 
     public InteractiveArrayAdapter(Activity context, List<Grade> grades) {
-
         layoutInflater = context.getLayoutInflater();
         this.gradeList = grades;
     }
 
+    // Called every time a row is created
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public GradesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View row = layoutInflater.inflate(R.layout.list_row, null);
         return new GradesViewHolder(row);
     }
 
+    // Called every time when a new row has to be displayed
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int gradeNum) {
+    public void onBindViewHolder(@NonNull GradesViewHolder holder, int gradePosition) {
 
-        // powiazanie grupy przyciskow radiowych z wierszem listy
-        // ...
-        Grade grade = gradeList.get(gradeNum);
+        Grade grade = gradeList.get(gradePosition);
+        holder.subjectNameTextView.setText(grade.getName());
 
-
-        // ustawienie nazwy przedmiotu
-        // ...
-        // zaznaczenie odpowiedniego przycisku radiowego
-        // ...
+        // zaznaczenie odpowiedniego przycisku radiowego (?)
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.example.gradeaverage;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -17,10 +18,10 @@ import java.util.ArrayList;
 public class GradeActivity extends AppCompatActivity {
 
     ArrayList<Grade> grades = new ArrayList<Grade>();
-    Button calculationButton;
     RecyclerView gradesRecView;
+    InteractiveArrayAdapter adapter;
 
-
+    Button calculationButton;
     int gradesNum;
 
     @Override
@@ -31,38 +32,32 @@ public class GradeActivity extends AppCompatActivity {
 
         calculationButton = (Button) findViewById(R.id.calculationButton);
 
-        // TODO: show appropriate list of subjects, set Views
-
         // Get the number of grades
         Bundle passedData = getIntent().getExtras();
         gradesNum = passedData.getInt(MainActivity.GRADES_NUM);
-        // Toast.makeText(this, String.format("%d", gradesNum), Toast.LENGTH_LONG).show();
 
-        /*
         // Fill arrayList with subject names and default grades
         fillGrades(gradesNum);
 
         // Create adapter and set it in a RecyclerView
-
-        InteractiveArrayAdapter adapter = new InteractiveArrayAdapter(this, grades);
+        gradesRecView = (RecyclerView) findViewById(R.id.gradeRecyclerView);
+        adapter = new InteractiveArrayAdapter(this, grades);
         gradesRecView.setAdapter(adapter);
-
-        // Create layout lists and set it in a recyclerView
-
+        gradesRecView.setLayoutManager(new LinearLayoutManager(this));
 
         // Set final button's onClick()
-
-        */
         calculationButton.setOnClickListener((View v) -> {
 
             if (gradesFilled()) {
-                // double average = calculateAverage();
-                double average = (double) this.gradesNum;
+                double average = calculateAverage();
+                // double average = (double) this.gradesNum;
                 returnAverage(average);
             }
         });
     }
 
+    private static final int DEFAULT_GRADE = 2;
+    // Fills arrayList with subject names and default grades
     void fillGrades(int gradesNum) {
 
         grades = new ArrayList<Grade>();
@@ -70,7 +65,7 @@ public class GradeActivity extends AppCompatActivity {
         String[] subjects = res.getStringArray(R.array.subjects);
 
         for (int i = 0; i < gradesNum; ++i) {
-            grades.add(new Grade(subjects[i], 2));
+            grades.add(new Grade(subjects[i], DEFAULT_GRADE));
         }
     }
 
@@ -80,8 +75,12 @@ public class GradeActivity extends AppCompatActivity {
     }
 
     double calculateAverage() {
-        // TODO
-        return 2.0;
+        int sum = 0;
+        for (Grade grade : grades) {
+            sum += grade.getGrade();
+        }
+
+        return (double)sum / (double)grades.size();
     }
 
     void returnAverage(double average) {
