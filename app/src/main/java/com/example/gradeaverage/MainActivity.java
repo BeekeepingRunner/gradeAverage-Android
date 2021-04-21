@@ -16,10 +16,16 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
-// User has to enter a name, surname and a number of grades to fill later.
-// If all requested info is given, a button becomes visible.
-// After clicking that button, another activity is invoked and the number
-// of grades is passed to it.
+/*  TODO someday:
+    1. Persistence of the entered data in the first activity, when someone returns back from
+    the second one using an arrow.
+ */
+
+/*  User has to enter a name, surname and a number of grades to fill later.
+    If all requested info is given, a button becomes visible.
+    After clicking that button, another activity is invoked and the number
+    of grades is passed to it.
+ */
 public class MainActivity extends AppCompatActivity {
 
     // Prepared identifiers for layout widgets reference (set in onCreate())

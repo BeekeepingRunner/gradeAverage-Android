@@ -13,13 +13,13 @@ import android.widget.Toast;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+
 public class GradeActivity extends AppCompatActivity {
 
+    ArrayList<Grade> grades = new ArrayList<Grade>();
     Button calculationButton;
-
     RecyclerView gradesRecView;
 
-    ArrayList<Grade> grades;
 
     int gradesNum;
 
