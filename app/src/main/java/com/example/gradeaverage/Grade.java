@@ -1,5 +1,6 @@
 package com.example.gradeaverage;
 
+// Data model
 public class Grade {
 
     private String subjectName;

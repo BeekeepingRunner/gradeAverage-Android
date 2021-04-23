@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.autofill.AutofillValue;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -13,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+// Binds RecyclerView (which represents data in a List format)
+// and Data source (List of grades)
 public class InteractiveArrayAdapter extends RecyclerView.Adapter<InteractiveArrayAdapter.GradesViewHolder> {
 
     private List<Grade> gradeList;
@@ -22,6 +25,7 @@ public class InteractiveArrayAdapter extends RecyclerView.Adapter<InteractiveArr
     class GradesViewHolder extends RecyclerView.ViewHolder
             implements RadioGroup.OnCheckedChangeListener {
 
+        // Future references to the elements of the row
         TextView subjectNameTextView;
         RadioGroup radioGroup;
         RadioButton radioButton2;
@@ -29,6 +33,7 @@ public class InteractiveArrayAdapter extends RecyclerView.Adapter<InteractiveArr
         RadioButton radioButton4;
         RadioButton radioButton5;
 
+        // Gets references and sets listeners
         public GradesViewHolder(@NonNull View mainRowElement) {
             super(mainRowElement);
 
@@ -40,13 +45,29 @@ public class InteractiveArrayAdapter extends RecyclerView.Adapter<InteractiveArr
             radioButton5 = mainRowElement.findViewById(R.id.radioButton5);
 
             radioGroup.setOnCheckedChangeListener(this);
-            // ...?
         }
 
+        // When given radioButton becomes checked, sets appropriate value of the grade in the List.
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-            // todo
+            Grade grade = (Grade) group.getTag();
+
+            switch (checkedId)
+            {
+                case R.id.radioButton2:
+                    grade.setGrade(2);
+                    break;
+                case R.id.radioButton3:
+                    grade.setGrade(3);
+                    break;
+                case R.id.radioButton4:
+                    grade.setGrade(4);
+                    break;
+                case R.id.radioButton5:
+                    grade.setGrade(5);
+                    break;
+            }
         }
     }
 
@@ -55,7 +76,7 @@ public class InteractiveArrayAdapter extends RecyclerView.Adapter<InteractiveArr
         this.gradeList = grades;
     }
 
-    // Called every time a row is created
+    // Creates main layout element and returns ViewHolder for each created row.
     @NonNull
     @Override
     public GradesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -64,14 +85,18 @@ public class InteractiveArrayAdapter extends RecyclerView.Adapter<InteractiveArr
         return new GradesViewHolder(row);
     }
 
-    // Called every time when a new row has to be displayed
+    // Fills each row with data from source, every time a row has to be displayed
     @Override
     public void onBindViewHolder(@NonNull GradesViewHolder holder, int gradePosition) {
 
         Grade grade = gradeList.get(gradePosition);
         holder.subjectNameTextView.setText(grade.getName());
 
-        // zaznaczenie odpowiedniego przycisku radiowego (?)
+        // We have to tag radioGroup in each row with proper grade from data source
+        // to reference it later, when we'll want to change it.
+        holder.radioGroup.setTag(gradeList.get(gradePosition));
+        // Checks default button (representing grade 2)
+        holder.radioGroup.check(R.id.radioButton2);
     }
 
     @Override

@@ -14,51 +14,51 @@ import android.widget.Toast;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-
+/*  User checks appropriate radioButtons to enter grades for each subject.
+    Based on input, an average grade is calculated and passed back to the main activity.
+ */
 public class GradeActivity extends AppCompatActivity {
 
     ArrayList<Grade> grades = new ArrayList<Grade>();
-    RecyclerView gradesRecView;
-    InteractiveArrayAdapter adapter;
+    RecyclerView gradesRecView;         // Represents data in a List format
+    InteractiveArrayAdapter adapter;    // Binds RecyclerView with data source (ArrayList of grades)
 
     Button calculationButton;
-    int gradesNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grade);
 
-        calculationButton = (Button) findViewById(R.id.calculationButton);
+        fillGradeListWithInitialData(getGradesNum());
+        setRecyclerViewAndAdapter();
+        setCalculationButton();
+    }
 
-        // Get the number of grades
+    int getGradesNum() {
         Bundle passedData = getIntent().getExtras();
-        gradesNum = passedData.getInt(MainActivity.GRADES_NUM);
+        return passedData.getInt(MainActivity.GRADES_NUM);
+    }
 
-        // Fill arrayList with subject names and default grades
-        fillGrades(gradesNum);
-
-        // Create adapter and set it in a RecyclerView
+    void setRecyclerViewAndAdapter() {
         gradesRecView = (RecyclerView) findViewById(R.id.gradeRecyclerView);
         adapter = new InteractiveArrayAdapter(this, grades);
         gradesRecView.setAdapter(adapter);
         gradesRecView.setLayoutManager(new LinearLayoutManager(this));
+    }
 
-        // Set final button's onClick()
+    void setCalculationButton() {
+        calculationButton = (Button) findViewById(R.id.calculationButton);
+        calculationButton.setText(R.string.sendGradesButton);
         calculationButton.setOnClickListener((View v) -> {
 
-            if (gradesFilled()) {
-                double average = calculateAverage();
-                // double average = (double) this.gradesNum;
-                returnAverage(average);
-            }
+            returnAverage(calculateAverage());
         });
     }
 
     private static final int DEFAULT_GRADE = 2;
     // Fills arrayList with subject names and default grades
-    void fillGrades(int gradesNum) {
+    void fillGradeListWithInitialData(int gradesNum) {
 
         grades = new ArrayList<Grade>();
         Resources res = getResources();
@@ -67,11 +67,6 @@ public class GradeActivity extends AppCompatActivity {
         for (int i = 0; i < gradesNum; ++i) {
             grades.add(new Grade(subjects[i], DEFAULT_GRADE));
         }
-    }
-
-    boolean gradesFilled() {
-        // TODO
-        return true;
     }
 
     double calculateAverage() {
@@ -83,10 +78,8 @@ public class GradeActivity extends AppCompatActivity {
         return (double)sum / (double)grades.size();
     }
 
+    // Pass calculated average back to the main activity
     void returnAverage(double average) {
-
-        // Bundle bundle = new Bundle();
-        // bundle.putDouble("average", average);
 
         Intent intent = new Intent();
         intent.putExtra(MainActivity.RESULT_AVERAGE, average);

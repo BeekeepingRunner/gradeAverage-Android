@@ -24,6 +24,10 @@
     <string name="final_success_button_text">Great!</string>
     <string name="final_fail_button_text">Not this time...</string>
 
+    <string name="final_prompt_text_success">Congratulations! You passed!</string>
+    <string name="final_prompt_text_fail">Sending an application for a conditional pass...</string>
+    <string name="finish">Finish</string>
+
     <string-array name="subjects">
         <item>Phys.</item>
         <item>Math.</item>

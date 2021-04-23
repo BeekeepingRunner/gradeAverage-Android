@@ -25,6 +25,10 @@
     <string name="final_success_button_text">Super!</string>
     <string name="final_fail_button_text">Tym razem mi nie poszło</string>
 
+    <string name="final_prompt_text_success">Gratulacje! Otrzymujesz zaliczenie.</string>
+    <string name="final_prompt_text_fail">Wysyłam podanie o zaliczenie warunkowe...</string>
+    <string name="finish">Zakończ</string>
+
     <string-array name="subjects">
         <item>Fiz.</item>
         <item>Mat.</item>

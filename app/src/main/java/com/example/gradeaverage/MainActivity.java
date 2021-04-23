@@ -19,12 +19,15 @@ import org.w3c.dom.Text;
 /*  TODO someday:
     1. Persistence of the entered data in the first activity, when someone returns back from
     the second one using an arrow.
+    2. Let the user enter subjects
  */
 
 /*  User has to enter a name, surname and a number of grades to fill later.
     If all requested info is given, a button becomes visible.
     After clicking that button, another activity is invoked and the number
     of grades is passed to it.
+    Later this activity gets calculated average from invoked activity, and a program finish is
+    then available.
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -43,6 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
     public static final int GRADE_ACTIVITY_CODE = 1;    // TODO: is it a good solution?
     public static final String RESULT_AVERAGE = "average";
+
+    public static final String PASS_INFO = "passInfo";
+    private static final boolean PASSED = true;
+    private static final boolean NOT_PASSED = false;
 
     // Sets layout,
     // gets references to the layout widgets,
@@ -157,17 +164,13 @@ public class MainActivity extends AppCompatActivity {
 
     // Evokes new Activity and passes the number of grades to it.
     void setButtonOnClickListener() {
-        gradesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        gradesButton.setOnClickListener((View v) -> {
 
-                Intent intent = new Intent(MainActivity.this, GradeActivity.class);
+            Intent intent = new Intent(MainActivity.this, GradeActivity.class);
+            intent.putExtra(GRADES_NUM, Integer.parseInt(gradesNumEditText.getText().toString()));
 
-                intent.putExtra(GRADES_NUM, Integer.parseInt(gradesNumEditText.getText().toString()));
-
-                // We want pass or fail info back
-                startActivityForResult(intent, GRADE_ACTIVITY_CODE);
-            }
+            // We want pass or fail info back
+            startActivityForResult(intent, GRADE_ACTIVITY_CODE);
         });
     }
 
@@ -196,17 +199,29 @@ public class MainActivity extends AppCompatActivity {
 
             setButtonTextAndAction(average);
         }
+        else if (resultCode == RESULT_CANCELED) {
+            this.finish();
+        }
     }
 
+    // Invokes final activity with proper result message
     private void setButtonTextAndAction(double average) {
 
         if (average > 2) {
             gradesButton.setText(R.string.final_success_button_text);
-            // set onClick()...
+            setFinalOnClick(PASSED);
         }
         else {
             gradesButton.setText(R.string.final_fail_button_text);
-            // set onClick()...
+            setFinalOnClick(NOT_PASSED);
         }
+    }
+
+    private void setFinalOnClick(boolean isPassed) {
+        gradesButton.setOnClickListener((View v) -> {
+            Intent intent = new Intent(MainActivity.this, FinishActivity.class);
+            intent.putExtra(PASS_INFO, isPassed);
+            startActivityForResult(intent, RESULT_CANCELED);
+        });
     }
 }
