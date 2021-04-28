@@ -51,21 +51,21 @@ public class InteractiveArrayAdapter extends RecyclerView.Adapter<InteractiveArr
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-            Grade grade = (Grade) group.getTag();
+            int position = (Integer) group.getTag();
 
             switch (checkedId)
             {
                 case R.id.radioButton2:
-                    grade.setGrade(2);
+                    gradeList.get(position).setGrade(2);
                     break;
                 case R.id.radioButton3:
-                    grade.setGrade(3);
+                    gradeList.get(position).setGrade(3);
                     break;
                 case R.id.radioButton4:
-                    grade.setGrade(4);
+                    gradeList.get(position).setGrade(4);
                     break;
                 case R.id.radioButton5:
-                    grade.setGrade(5);
+                    gradeList.get(position).setGrade(5);
                     break;
             }
         }
@@ -92,11 +92,26 @@ public class InteractiveArrayAdapter extends RecyclerView.Adapter<InteractiveArr
         Grade grade = gradeList.get(gradePosition);
         holder.subjectNameTextView.setText(grade.getName());
 
-        // We have to tag radioGroup in each row with proper grade from data source
+        // We have to tag radioGroup in each row with proper grade index from data source
         // to reference it later, when we'll want to change it.
-        holder.radioGroup.setTag(gradeList.get(gradePosition));
-        // Checks default button (representing grade 2)
-        holder.radioGroup.check(R.id.radioButton2);
+        holder.radioGroup.setTag(gradePosition);
+
+        // Check proper button
+        int rowGrade = gradeList.get(gradePosition).getGrade();
+        switch (rowGrade) {
+            case 3:
+                holder.radioGroup.check(R.id.radioButton3);
+                break;
+            case 4:
+                holder.radioGroup.check(R.id.radioButton4);
+                break;
+            case 5:
+                holder.radioGroup.check(R.id.radioButton5);
+                break;
+            case 2:
+            default:
+                holder.radioGroup.check(R.id.radioButton2);
+        }
     }
 
     @Override
