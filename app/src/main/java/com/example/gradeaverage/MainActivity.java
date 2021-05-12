@@ -48,12 +48,15 @@ public class MainActivity extends AppCompatActivity {
     public static final int GRADE_ACTIVITY_CODE = 1;
     public static final String RESULT_AVERAGE = "average";
 
+    public static double average;
     public static final String IS_AVERAGE_VISIBLE = "avrVis";
     public static boolean isAverageVisible = false;
 
     public static final String PASS_INFO = "passInfo";
     private static final boolean PASSED = true;
     private static final boolean NOT_PASSED = false;
+
+    public static final String BUTTON_TEXT = "buttonText";
 
     // Sets layout,
     // gets references to the layout widgets,
@@ -71,24 +74,31 @@ public class MainActivity extends AppCompatActivity {
         averageTextView = (TextView) findViewById(R.id.averageTextView);
         gradesButton = (Button) findViewById(R.id.gradeButton);
 
-        restoreState(savedInstanceState);
+        // default button action if there is no state to restore
+        if (!restoreState(savedInstanceState)) {
+            setButtonOnClickListener();
+        }
 
         setOnFocusChangeListeners();        // Input validation end alerts
         setTextChangedListeners();          // Input validation and button show
-        setButtonOnClickListener();         // Starting new Activity
     }
 
-    void restoreState(Bundle savedInstanceState) {
+    boolean restoreState(Bundle savedInstanceState) {
+
         if (savedInstanceState != null) {   // try to restore data
             nameEditText.setText(savedInstanceState.getString(NAME_TEXT));
             surnameEditText.setText(savedInstanceState.getString(SURNAME_TEXT));
             gradesNumEditText.setText(savedInstanceState.getString(GRADES_NUM));
             averageTextView.setText((savedInstanceState.getString(AVERAGE_TEXT)));
+
             if (savedInstanceState.getBoolean(IS_AVERAGE_VISIBLE)) {
                 averageTextView.setVisibility(View.VISIBLE);
             }
             gradesButton.setVisibility(savedInstanceState.getInt(BUTTON_VISIB));
+            setButtonTextAndAction(average);
+            return true;
         }
+        return false;
     }
 
     // Showing input errors on focus change
@@ -197,7 +207,9 @@ public class MainActivity extends AppCompatActivity {
         outState.putString(GRADES_NUM, gradesNumEditText.getText().toString());
         outState.putString(AVERAGE_TEXT, averageTextView.getText().toString());
         outState.putBoolean(IS_AVERAGE_VISIBLE, isAverageVisible);
+
         outState.putInt(BUTTON_VISIB, gradesButton.getVisibility());
+        outState.putString(BUTTON_TEXT, gradesButton.getText().toString());
     }
 
     // For now, that method gets the calculated average from the second activity
@@ -206,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
-            double average = data.getDoubleExtra(RESULT_AVERAGE, 0);
+            average = data.getDoubleExtra(RESULT_AVERAGE, 0);
 
             averageTextView = findViewById(R.id.averageTextView);
             averageTextView.append(String.format(" %.2f", average));
