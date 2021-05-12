@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     EditText nameEditText;
     EditText surnameEditText;
     EditText gradesNumEditText;
+    TextView averageTextView;
     Button gradesButton;
 
     // String constant keys for saving instance state in a Bundle
@@ -44,8 +45,11 @@ public class MainActivity extends AppCompatActivity {
     private static final String AVERAGE_TEXT = "averageText";
     private static final String BUTTON_VISIB = "buttonVisib";
 
-    public static final int GRADE_ACTIVITY_CODE = 1;    // TODO: is it a good solution?
+    public static final int GRADE_ACTIVITY_CODE = 1;
     public static final String RESULT_AVERAGE = "average";
+
+    public static final String IS_AVERAGE_VISIBLE = "avrVis";
+    public static boolean isAverageVisible = false;
 
     public static final String PASS_INFO = "passInfo";
     private static final boolean PASSED = true;
@@ -64,18 +68,27 @@ public class MainActivity extends AppCompatActivity {
         nameEditText = (EditText) findViewById(R.id.nameEditText);
         surnameEditText = (EditText) findViewById(R.id.surnameEditText);
         gradesNumEditText = (EditText) findViewById(R.id.gradeNumEditText);
+        averageTextView = (TextView) findViewById(R.id.averageTextView);
         gradesButton = (Button) findViewById(R.id.gradeButton);
 
-        if (savedInstanceState != null) {   // try to restore data
-            nameEditText.setText(savedInstanceState.getString(NAME_TEXT));
-            surnameEditText.setText(savedInstanceState.getString(SURNAME_TEXT));
-            gradesNumEditText.setText(savedInstanceState.getString(GRADES_NUM));
-            gradesButton.setVisibility(savedInstanceState.getInt(BUTTON_VISIB));
-        }
+        restoreState(savedInstanceState);
 
         setOnFocusChangeListeners();        // Input validation end alerts
         setTextChangedListeners();          // Input validation and button show
         setButtonOnClickListener();         // Starting new Activity
+    }
+
+    void restoreState(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {   // try to restore data
+            nameEditText.setText(savedInstanceState.getString(NAME_TEXT));
+            surnameEditText.setText(savedInstanceState.getString(SURNAME_TEXT));
+            gradesNumEditText.setText(savedInstanceState.getString(GRADES_NUM));
+            averageTextView.setText((savedInstanceState.getString(AVERAGE_TEXT)));
+            if (savedInstanceState.getBoolean(IS_AVERAGE_VISIBLE)) {
+                averageTextView.setVisibility(View.VISIBLE);
+            }
+            gradesButton.setVisibility(savedInstanceState.getInt(BUTTON_VISIB));
+        }
     }
 
     // Showing input errors on focus change
@@ -182,6 +195,8 @@ public class MainActivity extends AppCompatActivity {
         outState.putString(NAME_TEXT, nameEditText.getText().toString());
         outState.putString(SURNAME_TEXT, surnameEditText.getText().toString());
         outState.putString(GRADES_NUM, gradesNumEditText.getText().toString());
+        outState.putString(AVERAGE_TEXT, averageTextView.getText().toString());
+        outState.putBoolean(IS_AVERAGE_VISIBLE, isAverageVisible);
         outState.putInt(BUTTON_VISIB, gradesButton.getVisibility());
     }
 
@@ -193,9 +208,10 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             double average = data.getDoubleExtra(RESULT_AVERAGE, 0);
 
-            TextView averageTextView = (TextView) findViewById(R.id.averageTextView);
+            averageTextView = findViewById(R.id.averageTextView);
             averageTextView.append(String.format(" %.2f", average));
             averageTextView.setVisibility(View.VISIBLE);
+            isAverageVisible = true;
 
             setButtonTextAndAction(average);
         }
