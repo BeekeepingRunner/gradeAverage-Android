@@ -35,15 +35,12 @@ public class GradeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grade);
 
-        // TO REPAIR
         if (savedInstanceState != null) {
 
             int[] gradeArr = savedInstanceState.getIntArray(GRADE_ARR);
 
             Resources res = getResources();
             String[] subjects = res.getStringArray(R.array.subjects);
-
-                // Toast.makeText(this, "null array", Toast.LENGTH_SHORT).show();
 
             grades = new ArrayList<>();
             for (int i = 0; i < gradeArr.length; ++i) {
@@ -53,7 +50,7 @@ public class GradeActivity extends AppCompatActivity {
         } else {
             fillGradeListWithInitialData(getGradesNum());
         }
-        // =======
+
         setRecyclerViewAndAdapter();
         setCalculationButton();
     }
